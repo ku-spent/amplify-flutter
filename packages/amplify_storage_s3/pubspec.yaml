@@ -11,14 +11,18 @@ dependencies:
   flutter:
     sdk: flutter
   amplify_storage_plugin_interface:
-    path: ../amplify_storage_plugin_interface
+    git:
+      url: https://github.com/ku-spent/amplify-flutter.git
+      path: packages/amplify_storage_plugin_interface
   plugin_platform_interface: ^1.0.1
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   amplify_core:
-    path: ../amplify_core
+    git:
+      url: https://github.com/ku-spent/amplify-flutter.git
+      path: packages/amplify_core
 
 flutter:
   plugin:

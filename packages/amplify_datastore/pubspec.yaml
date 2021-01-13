@@ -11,7 +11,9 @@ dependencies:
   flutter:
     sdk: flutter
   amplify_datastore_plugin_interface:
-    path: ../amplify_datastore_plugin_interface
+    git:
+      url: https://github.com/ku-spent/amplify-flutter.git
+      path: packages/amplify_datastore_plugin_interface
   plugin_platform_interface: ^1.0.1
   date_time_format: ^1.1.0
   uuid: ^2.2.2
