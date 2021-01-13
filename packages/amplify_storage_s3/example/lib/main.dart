@@ -17,7 +17,7 @@ import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:flutter/material.dart';
 import 'dart:io';
 import 'package:file_picker/file_picker.dart';
-import 'package:amplify_flutter/amplify.dart';
+import 'package:amplify_core/amplify_core.dart';
 import 'package:amplify_storage_s3/amplify_storage_s3.dart';
 import 'amplifyconfiguration.dart';
 
@@ -35,6 +35,7 @@ class _MyAppState extends State<MyApp> {
   String _uploadFileResult = '';
   String _getUrlResult = '';
   String _removeResult = '';
+  Amplify amplify = new Amplify();
 
   @override
   void initState() {
@@ -45,10 +46,10 @@ class _MyAppState extends State<MyApp> {
     // First add plugins (Amplify native requirements)
     AmplifyStorageS3 storage = new AmplifyStorageS3();
     AmplifyAuthCognito auth = new AmplifyAuthCognito();
-    Amplify.addPlugins([auth, storage]);
+    amplify.addPlugin(authPlugins: [auth], storagePlugins: [storage]);
 
     // Configure
-    await Amplify.configure(amplifyconfig);
+    await amplify.configure(amplifyconfig);
 
     setState(() {
       _isAmplifyConfigured = true;
@@ -141,33 +142,33 @@ class _MyAppState extends State<MyApp> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   const Padding(padding: EdgeInsets.all(10.0)),
-                  ElevatedButton(
+                  RaisedButton(
                     onPressed: _isAmplifyConfigured ? null : configureAmplify,
                     child: const Text('Configure'),
                   ),
                   const Padding(padding: EdgeInsets.all(5.0)),
                   Text('Amplify Configured: $_isAmplifyConfigured'),
                   const Padding(padding: EdgeInsets.all(10.0)),
-                  ElevatedButton(
+                  RaisedButton(
                     onPressed: upload,
                     child: const Text('Upload File'),
                   ),
                   const Padding(padding: EdgeInsets.all(5.0)),
                   Text('Uploaded File: $_uploadFileResult'),
                   const Padding(padding: EdgeInsets.all(5.0)),
-                  ElevatedButton(
+                  RaisedButton(
                     onPressed: remove,
                     child: const Text('Remove uploaded File'),
                   ),
                   const Padding(padding: EdgeInsets.all(5.0)),
                   Text('Removed File: $_removeResult'),
                   const Padding(padding: EdgeInsets.all(5.0)),
-                  ElevatedButton(
+                  RaisedButton(
                     onPressed: list,
                     child: const Text('List Files'),
                   ),
                   const Padding(padding: EdgeInsets.all(5.0)),
-                  ElevatedButton(
+                  RaisedButton(
                     onPressed: getUrl,
                     child: const Text('GetUrl for uploaded File'),
                   ),

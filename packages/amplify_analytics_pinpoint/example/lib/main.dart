@@ -1,7 +1,7 @@
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:flutter/material.dart';
 
-import 'package:amplify_flutter/amplify.dart';
+import 'package:amplify_core/amplify_core.dart';
 import 'package:amplify_analytics_pinpoint/amplify_analytics_pinpoint.dart';
 
 import 'amplifyconfiguration.dart';
@@ -17,6 +17,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   bool _amplifyConfigured = false;
+  Amplify amplifyInstance = new Amplify();
 
   String _uniqueId = "default";
   String _globalProp = "default";
@@ -39,10 +40,11 @@ class _MyAppState extends State<MyApp> {
     AmplifyAnalyticsPinpoint analyticsPlugin = AmplifyAnalyticsPinpoint();
     AmplifyAuthCognito authPlugin = AmplifyAuthCognito();
 
-    Amplify.addPlugins([authPlugin, analyticsPlugin]);
+    amplifyInstance.addPlugin(
+        authPlugins: [authPlugin], analyticsPlugins: [analyticsPlugin]);
 
     try {
-      await Amplify.configure(amplifyconfig);
+      await amplifyInstance.configure(amplifyconfig);
       setState(() {
         _amplifyConfigured = true;
       });
@@ -127,7 +129,7 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       home: Scaffold(
           appBar: AppBar(
-            title: const Text('Amplify Analytics example app'),
+            title: const Text('Amplify Core example app'),
           ),
           body: ListView(padding: EdgeInsets.all(10.0), children: <Widget>[
             Container(
@@ -145,7 +147,7 @@ class _MyAppState extends State<MyApp> {
                   Text('Amplify.Core',
                       style:
                           TextStyle(fontSize: 25, fontWeight: FontWeight.bold)),
-                  ElevatedButton(
+                  RaisedButton(
                     onPressed: _amplifyConfigured ? null : _configureAmplify,
                     child: const Text('configure Amplify'),
                   ),
@@ -175,13 +177,13 @@ class _MyAppState extends State<MyApp> {
                         _uniqueId = text;
                       }),
                   Center(
-                      child: ElevatedButton(
+                      child: RaisedButton(
                           onPressed: _amplifyConfigured ? _recordEvent : null,
-                          child: const Text('Record Event'))),
+                          child: Text('Record Event'))),
                   Center(
-                      child: ElevatedButton(
+                      child: RaisedButton(
                           onPressed: _amplifyConfigured ? _flushEvents : null,
-                          child: const Text('Flush Events'))),
+                          child: Text('Flush Events'))),
                   const Divider(
                     color: Colors.black,
                     height: 3,
@@ -195,20 +197,20 @@ class _MyAppState extends State<MyApp> {
                       onChanged: (text) {
                         _globalProp = text;
                       }),
-                  ElevatedButton(
+                  RaisedButton(
                       onPressed:
                           _amplifyConfigured ? _registerGlobalProperties : null,
-                      child: const Text('Register Global Prop')),
-                  ElevatedButton(
+                      child: Text('Register Global Prop')),
+                  RaisedButton(
                       onPressed: _amplifyConfigured
                           ? _unregisterGlobalProperties
                           : null,
-                      child: const Text('Unregister Global Prop')),
-                  ElevatedButton(
+                      child: Text('Unregister Global Prop')),
+                  RaisedButton(
                       onPressed: _amplifyConfigured
                           ? _unregisterAllGlobalProperties
                           : null,
-                      child: const Text('Unregister All Global Prop')),
+                      child: Text('Unregister All Global Prop')),
                   const Divider(
                     color: Colors.black,
                     height: 3,
@@ -221,9 +223,9 @@ class _MyAppState extends State<MyApp> {
                       onChanged: (text) {
                         _userId = text;
                       }),
-                  ElevatedButton(
+                  RaisedButton(
                       onPressed: _amplifyConfigured ? _identifyUser : null,
-                      child: const Text('Register User')),
+                      child: Text('Register User')),
                   const Divider(
                     color: Colors.black,
                     height: 3,
@@ -231,12 +233,12 @@ class _MyAppState extends State<MyApp> {
                     indent: 1,
                     endIndent: 0,
                   ),
-                  ElevatedButton(
+                  RaisedButton(
                       onPressed: _amplifyConfigured ? _enable : null,
-                      child: const Text('Enable')),
-                  ElevatedButton(
+                      child: Text('Enable')),
+                  RaisedButton(
                       onPressed: _amplifyConfigured ? _disable : null,
-                      child: const Text('Disable')),
+                      child: Text('Disable')),
                 ]))
           ])),
     );

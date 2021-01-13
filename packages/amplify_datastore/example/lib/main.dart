@@ -21,7 +21,7 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 
 import 'package:amplify_datastore/amplify_datastore.dart';
-import 'package:amplify_flutter/amplify.dart';
+import 'package:amplify_core/amplify_core.dart';
 import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
@@ -47,19 +47,19 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  List<Post> _posts = <Post>[];
-  List<Comment> _comments = <Comment>[];
-  List<Blog> _blogs = <Blog>[];
-  List<Post> _posts4rating = <Post>[];
-  List<Post> _posts1To4Rating = <Post>[];
-  List<Post> _postWithCreatedDate = <Post>[];
-  List<Post> _posts2Or5Rating = <Post>[];
-  List<Post> _postWithIdNotEquals = <Post>[];
-  List<Post> _firstPostFromResult = <Post>[];
-  List<Post> _allPostsWithoutRating2Or5 = <Post>[];
-  List<String> _postStreamingData = <String>[];
-  List<String> _blogStreamingData = <String>[];
-  List<String> _commentStreamingData = <String>[];
+  List<Post> _posts = List();
+  List<Comment> _comments = List();
+  List<Blog> _blogs = List();
+  List<Post> _posts4rating = List();
+  List<Post> _posts1To4Rating = List();
+  List<Post> _postWithCreatedDate = List();
+  List<Post> _posts2Or5Rating = List();
+  List<Post> _postWithIdNotEquals = List();
+  List<Post> _firstPostFromResult = List();
+  List<Post> _allPostsWithoutRating2Or5 = List();
+  List<String> _postStreamingData = List();
+  List<String> _blogStreamingData = List();
+  List<String> _commentStreamingData = List();
   bool _isAmplifyConfigured = false;
   String _queriesToView = "Post"; //default view
   Blog _selectedBlogForNewPost;
@@ -81,6 +81,8 @@ class _MyAppState extends State<MyApp> {
   ScrollController _commentScrollController =
       ScrollController(initialScrollOffset: 50.0);
 
+  Amplify amplify = new Amplify();
+
   @override
   void initState() {
     super.initState();
@@ -91,9 +93,9 @@ class _MyAppState extends State<MyApp> {
   Future<void> initPlatformState() async {
     datastorePlugin = AmplifyDataStore(modelProvider: ModelProvider.instance);
     listenToHub();
-    await Amplify.addPlugin(datastorePlugin);
+    await amplify.addPlugin(dataStorePlugins: [datastorePlugin]);
     // Configure
-    await Amplify.configure(amplifyconfig);
+    await amplify.configure(amplifyconfig);
 
     // setup streams
     postStream = Amplify.DataStore.observe(Post.classType);
@@ -154,16 +156,16 @@ class _MyAppState extends State<MyApp> {
   }
 
   void runQueries() async {
-    List<Post> allPosts = <Post>[];
-    List<Comment> allComments = <Comment>[];
-    List<Blog> allBlogs = <Blog>[];
-    List<Post> posts4Rating = <Post>[];
-    List<Post> posts1To4Rating = <Post>[];
-    List<Post> posts2Or5Rating = <Post>[];
-    List<Post> postWithCreatedDate = <Post>[];
-    List<Post> postWithIdNotEquals = <Post>[];
-    List<Post> firstPostFromResult = <Post>[];
-    List<Post> allPostsWithoutRating2Or5 = <Post>[];
+    List<Post> allPosts = List();
+    List<Comment> allComments = List();
+    List<Blog> allBlogs = List();
+    List<Post> posts4Rating = List();
+    List<Post> posts1To4Rating = List();
+    List<Post> posts2Or5Rating = List();
+    List<Post> postWithCreatedDate = List();
+    List<Post> postWithIdNotEquals = List();
+    List<Post> firstPostFromResult = List();
+    List<Post> allPostsWithoutRating2Or5 = List();
 
     // get all comments
     (await Amplify.DataStore.query(Comment.classType)).forEach((element) {

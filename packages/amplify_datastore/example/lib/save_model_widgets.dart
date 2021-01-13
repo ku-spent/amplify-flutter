@@ -12,7 +12,7 @@ Widget addBlogWidget(TextEditingController controller, bool isAmplifyConfigured,
         ),
       ),
       divider,
-      ElevatedButton(
+      RaisedButton(
         onPressed: () async {
           if (isAmplifyConfigured) {
             await saveFn(controller.text);
@@ -21,7 +21,7 @@ Widget addBlogWidget(TextEditingController controller, bool isAmplifyConfigured,
           }
           return null;
         },
-        child: const Text('Save Blog'),
+        child: Text('Save Blog'),
       ),
       divider,
     ],
@@ -73,7 +73,7 @@ Widget addPostWidget(
             });
           }),
       divider,
-      ElevatedButton(
+      RaisedButton(
         onPressed: () async {
           if (isAmplifyConfigured) {
             await saveFn(titleController.text, int.parse(ratingController.text),
@@ -84,7 +84,7 @@ Widget addPostWidget(
           }
           return null;
         },
-        child: const Text('Save Post'),
+        child: Text('Save Post'),
       ),
       divider,
     ],
@@ -123,7 +123,7 @@ Widget addCommentWidget(
             });
           }),
       divider,
-      ElevatedButton(
+      RaisedButton(
         onPressed: () async {
           if (isAmplifyConfigured) {
             await saveFn(controller.text, app._selectedPostForNewComment);
@@ -132,7 +132,7 @@ Widget addCommentWidget(
           }
           return null;
         },
-        child: const Text('Save Comment'),
+        child: Text('Save Comment'),
       ),
       divider,
     ],

@@ -17,11 +17,14 @@ import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:amplify_analytics_plugin_interface/analytics_plugin_interface.dart';
 import 'package:amplify_analytics_pinpoint/amplify_analytics_pinpoint.dart';
+import 'package:amplify_core/amplify_core.dart';
 
 void main() {
   const MethodChannel analyticsChannel =
       MethodChannel('com.amazonaws.amplify/analytics_pinpoint');
+  const MethodChannel coreChannel = MethodChannel('com.amazonaws.amplify/core');
 
+  Amplify amplify = new Amplify();
   AmplifyAnalyticsPinpoint analytics = new AmplifyAnalyticsPinpoint();
 
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -30,17 +33,21 @@ void main() {
     analyticsChannel.setMockMethodCallHandler((MethodCall methodCall) async {
       return true;
     });
+    coreChannel.setMockMethodCallHandler((MethodCall methodCall) async {
+      return true;
+    });
   });
 
   tearDown(() {
     analyticsChannel.setMockMethodCallHandler(null);
+    coreChannel.setMockMethodCallHandler(null);
   });
 
   // test sending basic events
   test('recordEvent results in true', () async {
     var event = AnalyticsEvent("test");
 
-    analytics.recordEvent(event: event);
+    Amplify.Analytics.recordEvent(event: event);
   });
 
   test('recordEvent results in true', () async {
@@ -51,13 +58,13 @@ void main() {
     event.properties.addIntProperty("intKey", 10);
     event.properties.addStringProperty("stringKey", "stringValue");
 
-    analytics.recordEvent(event: event);
+    Amplify.Analytics.recordEvent(event: event);
   });
 
   test('registerGlobalProperties results in true', () async {
     var globalProperties = AnalyticsProperties();
 
-    await analytics.registerGlobalProperties(
+    await Amplify.Analytics.registerGlobalProperties(
         globalProperties: globalProperties);
   });
 
@@ -69,13 +76,14 @@ void main() {
     globalProperties.addIntProperty("intKey", 10);
     globalProperties.addStringProperty("stringKey", "stringValue");
 
-    await analytics.registerGlobalProperties(
+    await Amplify.Analytics.registerGlobalProperties(
         globalProperties: globalProperties);
   });
 
   test('identify user results in true', () async {
     var userProfile = AnalyticsUserProfile();
-    await analytics.identifyUser(userId: "testUser", userProfile: userProfile);
+    await Amplify.Analytics.identifyUser(
+        userId: "testUser", userProfile: userProfile);
   });
 
   test('identify user results in true', () async {
@@ -90,7 +98,8 @@ void main() {
     var analyticsProperties = new AnalyticsProperties();
     userProfile.properties = analyticsProperties;
 
-    analytics.identifyUser(userId: "testUser", userProfile: userProfile);
+    Amplify.Analytics.identifyUser(
+        userId: "testUser", userProfile: userProfile);
   });
 
   test('identify user results in true', () async {
@@ -115,6 +124,7 @@ void main() {
     analyticsProperties.addStringProperty("stringKey", "stringValue");
     userProfile.properties = analyticsProperties;
 
-    await analytics.identifyUser(userId: "testUser", userProfile: userProfile);
+    await Amplify.Analytics.identifyUser(
+        userId: "testUser", userProfile: userProfile);
   });
 }

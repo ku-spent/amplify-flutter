@@ -1,3 +1,5 @@
+package com.amazonaws.amplify.amplify_storage_s3.types
+
 /*
  * Copyright 2020 Amazon.com, Inc. or its affiliates. All Rights Reserved.
  *
@@ -12,8 +14,6 @@
  * express or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
-
-package com.amazonaws.amplify.amplify_storage_s3.types
 
 import com.amplifyframework.storage.StorageAccessLevel
 import com.amplifyframework.storage.options.StorageDownloadFileOptions

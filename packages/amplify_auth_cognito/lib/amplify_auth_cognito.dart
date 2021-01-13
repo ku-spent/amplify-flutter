@@ -44,14 +44,12 @@ class AmplifyAuthCognito extends AuthPluginInterface {
     return res;
   }
 
-  Future<SignUpResult> confirmSignUp(
-      {@required ConfirmSignUpRequest request}) async {
+  Future<SignUpResult> confirmSignUp({@required ConfirmSignUpRequest request}) async {
     final res = await _instance.confirmSignUp(request: request);
     return res;
   }
 
-  Future<ResendSignUpCodeResult> resendSignUpCode(
-      {@required ResendSignUpCodeRequest request}) async {
+  Future<ResendSignUpCodeResult> resendSignUpCode({@required ResendSignUpCodeRequest request}) async {
     final res = await _instance.resendSignUpCode(request: request);
     return res;
   }
@@ -61,8 +59,7 @@ class AmplifyAuthCognito extends AuthPluginInterface {
     return res;
   }
 
-  Future<SignInResult> confirmSignIn(
-      {@required ConfirmSignInRequest request}) async {
+  Future<SignInResult> confirmSignIn({@required ConfirmSignInRequest request}) async {
     final res = await _instance.confirmSignIn(request: request);
     return res;
   }
@@ -72,20 +69,17 @@ class AmplifyAuthCognito extends AuthPluginInterface {
     return res;
   }
 
-  Future<UpdatePasswordResult> updatePassword(
-      {UpdatePasswordRequest request}) async {
+  Future<UpdatePasswordResult> updatePassword({UpdatePasswordRequest request}) async {
     final res = await _instance.updatePassword(request: request);
     return res;
   }
 
-  Future<ResetPasswordResult> resetPassword(
-      {ResetPasswordRequest request}) async {
+  Future<ResetPasswordResult> resetPassword({ResetPasswordRequest request}) async {
     final res = await _instance.resetPassword(request: request);
     return res;
   }
 
-  Future<UpdatePasswordResult> confirmPassword(
-      {ConfirmPasswordRequest request}) async {
+  Future<UpdatePasswordResult> confirmPassword({ConfirmPasswordRequest request}) async {
     final res = await _instance.confirmPassword(request: request);
     return res;
   }
@@ -97,6 +91,11 @@ class AmplifyAuthCognito extends AuthPluginInterface {
 
   Future<AuthSession> fetchAuthSession({AuthSessionRequest request}) async {
     final res = await _instance.fetchAuthSession(request: request);
+    return res;
+  }
+
+  Future<bool> signInWithWebUI({SignInWithWebUIRequest request}) async {
+    final res = await _instance.signInWithWebUI(request: request);
     return res;
   }
 }

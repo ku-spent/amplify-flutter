@@ -1,3 +1,8 @@
+package com.amazonaws.amplify.amplify_datastore
+
+import java.util.concurrent.CountDownLatch
+import java.util.concurrent.TimeUnit
+
 /*
  * Copyright 2020 Amazon.com, Inc. or its affiliates. All Rights Reserved.
  *
@@ -13,10 +18,7 @@
  * permissions and limitations under the License.
  */
 
-package com.amazonaws.amplify.amplify_datastore
 
-import java.util.concurrent.CountDownLatch
-import java.util.concurrent.TimeUnit
 
 /**
  * A utility to count down a latch.

@@ -18,11 +18,11 @@ library amplify_auth_plugin_interface;
 import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:meta/meta.dart';
-import 'package:amplify_core/types/index.dart';
+import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 import 'src/types.dart';
 export 'src/types.dart';
 
-abstract class AuthPluginInterface extends AmplifyPluginInterface {
+abstract class AuthPluginInterface extends PlatformInterface {
   /// Constructs a AmplifyPlatform.
   AuthPluginInterface({@required Object token}) : super(token: token);
 
@@ -39,8 +39,7 @@ abstract class AuthPluginInterface extends AmplifyPluginInterface {
     throw UnimplementedError('confirmSignUp() has not been implemented.');
   }
 
-  Future<ResendSignUpCodeResult> resendSignUpCode(
-      {@required ResendSignUpCodeRequest request}) {
+  Future<ResendSignUpCodeResult> resendSignUpCode({@required ResendSignUpCodeRequest request}) {
     throw UnimplementedError('resendSignUpCode() has not been implemented.');
   }
 
@@ -60,13 +59,11 @@ abstract class AuthPluginInterface extends AmplifyPluginInterface {
     throw UnimplementedError('updatePassword() has not been implemented.');
   }
 
-  Future<ResetPasswordResult> resetPassword(
-      {@required ResetPasswordRequest request}) {
+  Future<ResetPasswordResult> resetPassword({@required ResetPasswordRequest request}) {
     throw UnimplementedError('resetPassword() has not been implemented.');
   }
 
-  Future<UpdatePasswordResult> confirmPassword(
-      {ConfirmPasswordRequest request}) {
+  Future<UpdatePasswordResult> confirmPassword({ConfirmPasswordRequest request}) {
     throw UnimplementedError('confirmPassword() has not been implemented.');
   }
 
@@ -75,6 +72,10 @@ abstract class AuthPluginInterface extends AmplifyPluginInterface {
   }
 
   Future<AuthSession> fetchAuthSession({@required AuthSessionRequest request}) {
+    throw UnimplementedError('fetchAuthSession() has not been implemented.');
+  }
+
+  Future<bool> signInWithWebUI({SignInWithWebUIRequest request}) {
     throw UnimplementedError('fetchAuthSession() has not been implemented.');
   }
 }

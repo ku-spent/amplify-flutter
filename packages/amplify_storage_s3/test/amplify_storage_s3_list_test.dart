@@ -17,18 +17,39 @@ import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:amplify_storage_s3/amplify_storage_s3.dart';
 import 'package:amplify_storage_s3/src/Exceptions/StorageExceptionType.dart';
+import 'package:amplify_core/amplify_core.dart';
 import './resources/platform_exception_details.dart';
 
 void main() {
   const MethodChannel storageChannel =
       MethodChannel('com.amazonaws.amplify/storage_s3');
+  const MethodChannel coreChannel = MethodChannel('com.amazonaws.amplify/core');
+  var isConfigured = false;
 
+  Amplify amplify = new Amplify();
   AmplifyStorageS3 storage = AmplifyStorageS3();
+
+  configureAmplify() async {
+    await amplify.addPlugin(storagePlugins: [storage]);
+    await amplify.configure('{}');
+    isConfigured = true;
+  }
 
   TestWidgetsFlutterBinding.ensureInitialized();
 
+  setUp(() {
+    coreChannel.setMockMethodCallHandler((MethodCall methodCall) async {
+      return true;
+    });
+
+    if (!isConfigured) {
+      configureAmplify();
+    }
+  });
+
   tearDown(() {
     storageChannel.setMockMethodCallHandler(null);
+    coreChannel.setMockMethodCallHandler(null);
   });
 
   test('list request returns the correct ListResult in the happy case',
@@ -51,7 +72,7 @@ void main() {
         ],
       };
     });
-    var listResult = await storage.list(request: ListRequest());
+    var listResult = await Amplify.Storage.list();
     expect(listResult, isInstanceOf<ListResult>());
     expect(listResult.items.length, 2);
 
@@ -79,7 +100,7 @@ void main() {
       return {};
     });
     try {
-      await storage.list(request: ListRequest());
+      await Amplify.Storage.list();
     } on StorageException catch (e) {
       expect(e.code, exceptionType.code);
       expect(e.message, exceptionType.message);
@@ -116,7 +137,7 @@ void main() {
       };
     });
     try {
-      await storage.list(request: ListRequest());
+      await Amplify.Storage.list();
     } on StorageException catch (e) {
       expect(e.code, exceptionType.code);
       expect(e.message, exceptionType.message);
@@ -139,7 +160,7 @@ void main() {
           details: exceptionDetails);
     });
     try {
-      await storage.list(request: ListRequest());
+      await Amplify.Storage.list();
     } on StorageException catch (e) {
       expect(e.code, exceptionType.code);
       expect(e.message, exceptionType.message);

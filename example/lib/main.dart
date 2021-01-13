@@ -15,10 +15,11 @@
 
 import 'package:amplify_analytics_pinpoint/amplify_analytics_pinpoint.dart';
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
-import 'package:amplify_flutter/amplify.dart';
+import 'package:amplify_core/amplify_core.dart';
 import 'package:amplify_storage_s3/amplify_storage_s3.dart';
 import 'package:flutter/material.dart';
 import 'package:sample_app/Pages/LoadingPage.dart';
+import 'package:sample_app/Pages/MainPage.dart';
 
 import 'Pages/LandingPage.dart';
 
@@ -45,6 +46,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  Amplify amplify = Amplify();
   bool _isAmplifyConfigured = false;
 
   @override
@@ -58,10 +60,13 @@ class _MyAppState extends State<MyApp> {
     AmplifyStorageS3 storage = AmplifyStorageS3();
     AmplifyAnalyticsPinpoint analytics = AmplifyAnalyticsPinpoint();
 
-    Amplify.addPlugins([auth, storage, analytics]);
+    amplify.addPlugin(
+        authPlugins: [auth],
+        storagePlugins: [storage],
+        analyticsPlugins: [analytics]);
 
     // Initialize AmplifyFlutter
-    await Amplify.configure(amplifyconfig);
+    await amplify.configure(amplifyconfig);
 
     setState(() {
       _isAmplifyConfigured = true;

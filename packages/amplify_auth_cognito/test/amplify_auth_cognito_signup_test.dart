@@ -13,14 +13,18 @@
  * permissions and limitations under the License.
  */
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
+import 'package:amplify_core/amplify_core.dart';
+
 
 void main() {
-  const MethodChannel authChannel =
-      MethodChannel('com.amazonaws.amplify/auth_cognito');
+  const MethodChannel authChannel = MethodChannel('com.amazonaws.amplify/auth_cognito');
+  const MethodChannel coreChannel = MethodChannel('com.amazonaws.amplify/core');
 
+  Amplify amplify = new Amplify();
   AmplifyAuthCognito auth = AmplifyAuthCognito();
 
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -30,53 +34,55 @@ void main() {
   setUp(() {
     authChannel.setMockMethodCallHandler((MethodCall methodCall) async {
       if (methodCall.method == "signUp") {
-        switch (testCode) {
+        switch(testCode) {
           case 1:
             return Map.of({
               "isSignUpComplete": false,
               "nextStep": {
                 "signUpStep": "DONE",
-                "codeDeliveryDetails": {"attributeName": "email"}
+                "codeDeliveryDetails":  { "atttibuteName": "email" }
               }
             });
           case 2:
-            return throw PlatformException(
-                code: "AMPLIFY_EXCEPTION",
-                message: "AMPLIFY_SIGNUP_FAILED",
-                details: {});
-        }
-        ;
-      }
-      ;
+            return throw PlatformException(code: "AMPLIFY_EXCEPTION", message: "AMPLIFY_SIGNUP_FAILED", details: {} );
+        };
+      };   
+    });
+    coreChannel.setMockMethodCallHandler((MethodCall methodCall) async {
+      return true;
     });
   });
 
   tearDown(() {
     authChannel.setMockMethodCallHandler(null);
+    coreChannel.setMockMethodCallHandler(null);
   });
 
   test('signUp request returns a CognitoSignUpResult', () async {
     testCode = 1;
-    var res = await auth.signUp(
-        request: SignUpRequest(
-            username: 'testUser',
-            password: '123',
-            options: CognitoSignUpOptions(userAttributes: {
-              "email": "test@test.com",
-            })));
+    await amplify.addPlugin(authPlugins: [auth]);
+    await amplify.configure("{}");
+    var res = await Amplify.Auth.signUp(
+      username: 'testUser',
+      password: '123',
+      options: CognitoSignUpOptions(
+        userAttributes: {
+          "email": "test@test.com",
+        })
+    );
     expect(res, isInstanceOf<SignUpResult>());
   });
 
-  test('signUp request nextStep casts to AuthNextSignUpStep and AuthNextStep',
-      () async {
+  test('signUp request nextStep casts to AuthNextSignUpStep and AuthNextStep', () async {
     testCode = 1;
-    var res = await auth.signUp(
-        request: SignUpRequest(
-            username: 'testUser',
-            password: '123',
-            options: CognitoSignUpOptions(userAttributes: {
-              "email": "test@test.com",
-            })));
+    var res = await Amplify.Auth.signUp(
+      username: 'testUser',
+      password: '123',
+      options: CognitoSignUpOptions(
+        userAttributes: {
+          "email": "test@test.com",
+        })
+    );    
     expect(res.nextStep, isInstanceOf<AuthNextSignUpStep>());
     expect(res.nextStep, isInstanceOf<AuthNextStep>());
   });
@@ -84,17 +90,18 @@ void main() {
   test('signUp thrown PlatFormException results in AuthError', () async {
     testCode = 2;
     AuthError err;
-    try {
-      await auth.signUp(
-          request: SignUpRequest(
-              username: 'testUser',
-              password: '123',
-              options: CognitoSignUpOptions(userAttributes: {
-                "email": "test@test.com",
-              })));
-    } on AuthError catch (e) {
+   try {
+    await Amplify.Auth.signUp(
+      username: 'testUser',
+      password: '123',
+      options: CognitoSignUpOptions(
+        userAttributes: {
+          "email": "test@test.com",
+        })
+    );  
+   } on AuthError catch (e) {
       err = e;
-    }
+    } 
     expect(err.cause, "AMPLIFY_SIGNUP_FAILED");
   });
 }
