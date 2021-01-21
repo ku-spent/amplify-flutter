@@ -4,25 +4,20 @@ version: 0.0.1-dev.4
 homepage: https://github.com/aws-amplify/amplify-flutter/tree/master/packages/amplify_analytics_pinpoint
 
 environment:
-  sdk: '>=2.7.0 <3.0.0'
-  flutter: '>=1.20.0'
+  sdk: ">=2.7.0 <3.0.0"
+  flutter: ">=1.20.0"
+
 
 dependencies:
   flutter:
     sdk: flutter
-  amplify_analytics_plugin_interface:
-    git:
-      url: https://github.com/ku-spent/amplify-flutter.git
-      path: packages/amplify_analytics_plugin_interface
+  amplify_analytics_plugin_interface: ^0.0.1-dev.4
   plugin_platform_interface: ^1.0.1
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  amplify_core:
-    git:
-      url: https://github.com/ku-spent/amplify-flutter.git
-      path: packages/amplify_core
+  amplify_core: ^0.0.1-dev.4
 
 flutter:
   plugin:

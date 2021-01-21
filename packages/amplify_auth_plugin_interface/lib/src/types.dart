@@ -29,8 +29,6 @@ export 'SignIn/ConfirmSignInRequest.dart';
 export 'SignIn/ConfirmSignInOptions.dart';
 export 'SignIn/SignInOptions.dart';
 export 'SignIn/AuthNextSignInStep.dart';
-export 'SignIn/AuthProvider.dart';
-export 'SignIn/SignInWithWebUIRequest.dart';
 
 // SignOut Classes
 export 'SignOut/SignOutRequest.dart';

@@ -13,11 +13,9 @@
  * permissions and limitations under the License.
  */
 
-// ignore_for_file: public_member_api_docs
+import 'package:date_time_format/date_time_format.dart';
 
-// only to be used internally by amplify-flutter library
-String enumToString(Object o) => o != null ? o.toString().split('.').last : '';
+String enumToString(Object o) => o.toString().split('.').last;
 
-// only to be used internally by amplify-flutter library
 T enumFromString<T>(String key, List<T> values) =>
     values.firstWhere((v) => key == enumToString(v), orElse: () => null);

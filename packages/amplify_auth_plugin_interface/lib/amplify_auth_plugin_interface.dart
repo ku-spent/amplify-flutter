@@ -38,7 +38,7 @@ abstract class AuthPluginInterface extends PlatformInterface {
   Future<SignUpResult> confirmSignUp({@required ConfirmSignUpRequest request}) {
     throw UnimplementedError('confirmSignUp() has not been implemented.');
   }
-
+  
   Future<ResendSignUpCodeResult> resendSignUpCode({@required ResendSignUpCodeRequest request}) {
     throw UnimplementedError('resendSignUpCode() has not been implemented.');
   }
@@ -72,10 +72,6 @@ abstract class AuthPluginInterface extends PlatformInterface {
   }
 
   Future<AuthSession> fetchAuthSession({@required AuthSessionRequest request}) {
-    throw UnimplementedError('fetchAuthSession() has not been implemented.');
-  }
-
-  Future<bool> signInWithWebUI({SignInWithWebUIRequest request}) {
     throw UnimplementedError('fetchAuthSession() has not been implemented.');
   }
 }

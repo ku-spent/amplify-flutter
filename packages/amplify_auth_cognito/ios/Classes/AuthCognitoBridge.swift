@@ -151,7 +151,12 @@ class AuthCognitoBridge {
                     flutterResult(sessionData.toJSON())
                 } else {
                     let sessionData = try FlutterFetchSessionResult(res: result)
-                    flutterResult(sessionData.toJSON())
+                    if (sessionData.isSignedIn) {
+                        flutterResult(sessionData.toJSON())
+                    } else {
+                        throw AuthError.signedOut("There is no user signed in to retreive user sub",
+                                                  "Call Auth.signIn to sign in a user and then call Auth.fetchSession")
+                    }
                 }
                 
             } catch {
@@ -173,29 +178,6 @@ class AuthCognitoBridge {
             
         } catch {
             handleAuthError(error: error as! AuthError, flutterResult: flutterResult,  msg: FlutterAuthErrorMessage.GET_CURRENT_USER.rawValue)
-        }
-    }
-
-    func onSignInWithWebUI(flutterResult: @escaping FlutterResult, request: FlutterSignInWithWebUIRequest) {
-
-        if(request.provider == nil) {
-          Amplify.Auth.signInWithWebUI(presentationAnchor: UIApplication.shared.keyWindow!) { result in
-            switch result {
-            case .success:
-              flutterResult(true)
-            case .failure(let error):
-              handleAuthError(error: error , flutterResult: flutterResult, msg: FlutterAuthErrorMessage.SIGNIN_WITH_WEBUI.rawValue)
-            }
-          }
-        } else {
-            Amplify.Auth.signInWithWebUI(for: request.provider!, presentationAnchor: UIApplication.shared.keyWindow!) { result in
-              switch result {
-              case .success:
-                flutterResult(true)
-              case .failure(let error):
-                handleAuthError(error: error , flutterResult: flutterResult, msg: FlutterAuthErrorMessage.SIGNIN_WITH_WEBUI.rawValue)
-              }
-            }
         }
     }
 }

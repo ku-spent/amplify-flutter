@@ -99,6 +99,7 @@ public class SwiftAmplifyDataStorePlugin: NSObject, FlutterPlugin {
 
             let dataStorePlugin = AWSDataStorePlugin(modelRegistration: flutterModelRegistration)
             try Amplify.add(plugin: dataStorePlugin)
+            try Amplify.add(plugin: AWSAPIPlugin())
             Amplify.Logging.logLevel = .info
             print("Amplify configured with DataStore plugin")
             result(true)

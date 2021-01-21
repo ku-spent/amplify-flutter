@@ -42,11 +42,6 @@ enum class FlutterAuthFailureMessage {
       return "AMPLIFY_SIGNIN_FAILED"
     }
   },
-  SIGNIN_WITH_WEBUI {
-    override fun toString(): String {
-      return "AMPLIFY_SIGNIN_WITH_WEBUI_FAILED"
-    }
-  },
   CONFIRM_SIGNIN {
     override fun toString(): String {
       return "AMPLIFY_CONFIRM_SIGNIN_FAILED"
