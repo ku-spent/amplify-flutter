@@ -4,14 +4,20 @@ version: 0.0.1-dev.6
 homepage: https://github.com/aws-amplify/amplify-flutter/tree/master/packages/amplify_auth_cognito
 
 environment:
-  sdk: ">=2.7.0 <3.0.0"
-  flutter: ">=1.20.0"
+  sdk: '>=2.7.0 <3.0.0'
+  flutter: '>=1.20.0'
 
 dependencies:
   flutter:
     sdk: flutter
-  amplify_auth_plugin_interface: ^0.0.1-dev.6
-  amplify_core: ^0.0.1-dev.6
+  amplify_auth_plugin_interface:
+    git:
+      url: https://github.com/ku-spent/amplify-flutter.git
+      path: packages/amplify_auth_plugin_interface
+  amplify_core:
+    git:
+      url: https://github.com/ku-spent/amplify-flutter.git
+      path: packages/amplify_core
   plugin_platform_interface: ^1.0.1
 
 dev_dependencies:
