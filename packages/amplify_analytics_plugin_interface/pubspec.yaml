@@ -4,13 +4,16 @@ version: 0.0.1-dev.6
 homepage: https://github.com/aws-amplify/amplify-flutter/tree/master/packages/amplify_analytics_plugin_interface
 
 environment:
-  sdk: ">=2.7.0 <3.0.0"
+  sdk: '>=2.7.0 <3.0.0'
 
 dependencies:
   flutter:
     sdk: flutter
   meta: ^1.1.8
-  amplify_core: 0.0.1-dev.6
+  amplify_core:
+    git:
+      url: https://github.com/ku-spent/amplify-flutter.git
+      path: packages/amplify_core
 
 dev_dependencies:
   flutter_test:
